@@ -1,0 +1,107 @@
+
+        import * as React from "react"
+        import * as ReactDOM from "react-dom/client"
+        import * as Framer from "framer"
+
+        window.__framer_importFromPackage = (packageAndFilename, exportIdentifier) => () => {
+            return React.createElement(Framer.ErrorPlaceholder, { error: 'Package component not supported: "' + exportIdentifier + '" in "' + packageAndFilename + '"' })
+        }
+
+        // A lot of libraries assume process.env.NODE_ENV is present in runtime/buildtime, so we are polyfilling it
+        window.process = {
+            ...window.process,
+            env: {
+                ...(window.process ? window.process.env: undefined),
+                NODE_ENV: "production"
+            }
+        }
+
+        // Fallback support for stack gaps
+        Framer.installFlexboxGapWorkaroundIfNeeded()
+
+        ;(async () => {
+            const routes = {augiA20Il: {elements: {tDID5wiqI: "counter"}, page: Framer.lazy(() => import("https://framerusercontent.com/modules/1WDoxWqILgn5lC8yzT7f/eIbAaE3tDmIV4s6TtCZ4/augiA20Il.js")), path: "/"}, BffSjXBr0: {elements: {}, page: Framer.lazy(() => import("https://framerusercontent.com/modules/qTGEuhYjUQYd8n6VaNco/hi48INOTZlBP6i9kqjoz/BffSjXBr0.js")), path: "/features"}, YOxwKl17V: {elements: {}, page: Framer.lazy(() => import("https://framerusercontent.com/modules/KPIL9JKqnUVZ0NbIQbrG/2bzPAs6GbjpjdIeixyI8/YOxwKl17V.js")), path: "/pricing"}, MyrUxp8kz: {elements: {}, page: Framer.lazy(() => import("https://framerusercontent.com/modules/wv0EXMeVGbg6SLPU9Mg0/77MbnwotIXTLhhyHvonr/MyrUxp8kz.js")), path: "/blog"}, m1Pb6S5Ae: {elements: {}, page: Framer.lazy(() => import("https://framerusercontent.com/modules/tJcJEBjufL6VdvhZKy89/XHOIGc1KmdmcM8P6YE6F/m1Pb6S5Ae.js")), path: "/contact"}, fBIru6BgK: {elements: {}, page: Framer.lazy(() => import("https://framerusercontent.com/modules/Tjh8vyrVvzxGyaa3Tk7n/WaPfUQzqnNejFjhD44QU/fBIru6BgK.js")), path: "/blog/:WDshlHZdK"}, TBxMDam3n: {page: Framer.lazy(() => import("https://framerusercontent.com/modules/vn6jYmtnTIN7gbflHxrD/pxeHOZTb1nvuA7f2lLPN/TBxMDam3n.js"))}}
+            const locales = [{code: "en", id: "default", name: "English", slug: ""}]
+            const notFoundPage = Framer.lazy(() => import("__framer-not-found-page"))
+            const container = document.getElementById("main")
+
+            let routeId, localeId, pathVariables, shouldHydrate = false
+            if ("framerHydrateV2" in container.dataset) {
+                const routeData = JSON.parse(container.dataset.framerHydrateV2)
+                routeId = routeData.routeId
+                localeId = routeData.localeId
+                pathVariables = routeData.pathVariables
+                shouldHydrate = true
+            } else {
+                const routeData = Framer.inferInitialRouteFromPath(routes, decodeURIComponent(location.pathname), true, locales)
+                routeId = routeData.routeId
+                localeId = routeData.localeId
+                pathVariables = routeData.pathVariables
+            }
+
+            const route = routes[routeId]
+            const RootComponent = await route.page.preload()
+            routes[routeId].page = RootComponent
+
+            const element = React.createElement(
+                Framer.PageRoot,
+                {
+                    RootComponent,
+                    isWebsite: true,
+                    routeId,
+                    pathVariables,
+                    routes,
+                    notFoundPage,
+                    isReducedMotion: undefined,
+                    localeId,
+                    locales
+                }
+            )
+
+            if (shouldHydrate) {
+                React.startTransition(() => {
+                    ReactDOM.hydrateRoot(container, element)
+                })
+            } else {
+                ReactDOM.createRoot(container).render(element)
+            }
+        })().catch(error => {
+            window.__send_framer_event && window.__send_framer_event("published_site_load_error", {
+                message: String(error),
+                stack: error instanceof Error && typeof error.stack === "string" ? error.stack : null
+            })
+            throw error
+        })
+
+        
+        ;(async () => {
+            const { default: Badge } = await import("__framer-badge")
+            const ContainerWithStyleAppearEffect = Framer.withStyleAppearEffect(Framer.Container)
+            React.startTransition(() => {
+                ReactDOM.createRoot(document.getElementById("__framer-badge-container"))
+                    .render(React.createElement(ContainerWithStyleAppearEffect, {
+                        className: "__framer-badge",
+                        __framer__threshold: 0.5,
+                        __framer__animateOnce: true,
+                        __framer__opacity: 0,
+                        __framer__targetOpacity: 1,
+                        __framer__rotate: 0,
+                        __framer__x: 0,
+                        __framer__y: 10,
+                        __framer__scale: 1,
+                        __framer__transition: {
+                            "type": "spring",
+                            "ease": [0.44, 0, 0.56, 1],
+                            "duration": 0.3,
+                            "delay": 1,
+                            "stiffness": 350,
+                            "damping": 40,
+                            "mass": 1.5
+                        },
+                        __framer__rotateX: 0,
+                        __framer__rotateY: 0,
+                        __framer__perspective: 1200,
+                    }, React.createElement(Badge)))
+                })
+        })()
+    
